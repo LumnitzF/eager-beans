@@ -45,11 +45,17 @@ public class RequestScopedBeanTest extends AbstractBeanTest {
 
     @RequestScoped
     @Eager
-    public static class EagerBean {
+    public static class EagerBean implements EagerInitializable {
 
         @PostConstruct
         public void postConstruct() {
             markAsCreated(EagerBean.class);
+        }
+
+        @Override
+        public String toString() {
+            Assert.fail("EagerInitializable::init should be called instead of toString()");
+            return null;
         }
     }
 

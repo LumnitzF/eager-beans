@@ -1,5 +1,7 @@
 package io.github.lumnitzf.eagerbeans.impl;
 
+import io.github.lumnitzf.eagerbeans.EagerInitializable;
+
 import javax.enterprise.context.Initialized;
 import javax.enterprise.event.Reception;
 import javax.enterprise.event.TransactionPhase;
@@ -55,10 +57,24 @@ class BeanInitializer implements ObserverMethod<Object> {
     @Override
     public void notify(Object event) {
         for (Bean<?> bean : beans) {
+            // To trigger the bean initialization we have to call a method from it
+            Object beanReference = beanManager.getReference(bean, bean.getBeanClass(),
+                    beanManager.createCreationalContext(bean));
+            initBean(beanReference);
+        }
+    }
+
+    @SuppressWarnings("deprecation")
+    private void initBean(Object bean) {
+        if (bean instanceof EagerInitializable) {
+            // The bean is an EagerInitializable, so call that init method
+            // Avoids expensive toString
+            ((EagerInitializable) bean).init();
+        } else {
             // Trigger the creation of the bean using its toString()
             // unfortunately hashCode or equals does not work
             //noinspection ResultOfMethodCallIgnored
-            beanManager.getReference(bean, bean.getBeanClass(), beanManager.createCreationalContext(bean)).toString();
+            bean.toString();
         }
     }
 
