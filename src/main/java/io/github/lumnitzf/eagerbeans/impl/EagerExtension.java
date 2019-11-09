@@ -7,7 +7,7 @@ import javax.enterprise.event.Observes;
 import javax.enterprise.inject.spi.AfterBeanDiscovery;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.DeploymentException;
+import javax.enterprise.inject.spi.DefinitionException;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessManagedBean;
 import java.lang.annotation.Annotation;
@@ -28,7 +28,7 @@ public class EagerExtension implements Extension {
             final Bean<?> bean = event.getBean();
             Logger.getLogger(EagerExtension.class.getName()).fine("Found eager bean " + event.getBean());
             if (Dependent.class.equals(bean.getScope())) {
-                throw new DeploymentException("Eager bean " + bean + " must not have scope @Dependent");
+                throw new DefinitionException("@Eager marked " + bean + " must not have scope @Dependent");
             }
             eagerBeans.computeIfAbsent(bean.getScope(), ignored -> new HashSet<>()).add(bean);
         }
