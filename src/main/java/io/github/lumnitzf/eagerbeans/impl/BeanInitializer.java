@@ -5,7 +5,6 @@ import javax.enterprise.event.Reception;
 import javax.enterprise.event.TransactionPhase;
 import javax.enterprise.inject.spi.Bean;
 import javax.enterprise.inject.spi.BeanManager;
-import javax.enterprise.inject.spi.CDI;
 import javax.enterprise.inject.spi.ObserverMethod;
 import javax.enterprise.util.AnnotationLiteral;
 import java.lang.annotation.Annotation;
@@ -55,9 +54,11 @@ class BeanInitializer implements ObserverMethod<Object> {
 
     @Override
     public void notify(Object event) {
-        for(Bean<?> bean : beans) {
-            //noinspection ResultOfMethodCallIgnored: We simply want to trigger it to force the initialization
-            beanManager.getReference(bean, bean.getBeanClass(), beanManager.createCreationalContext(bean)).hashCode();
+        for (Bean<?> bean : beans) {
+            // Trigger the creation of the bean using its toString()
+            // unfortunately hashCode or equals does not work
+            //noinspection ResultOfMethodCallIgnored
+            beanManager.getReference(bean, bean.getBeanClass(), beanManager.createCreationalContext(bean)).toString();
         }
     }
 
