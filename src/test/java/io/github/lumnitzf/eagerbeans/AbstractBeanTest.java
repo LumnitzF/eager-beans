@@ -36,11 +36,15 @@ public abstract class AbstractBeanTest {
         final Weld weld = WeldInitiator.createWeld();
         getBeanClasses().forEach(weld::addBeanClass);
         weld.addExtension(new EagerExtension());
+        customizeWeld(weld);
         final WeldInitiator.Builder weldInitiatorBuilder = WeldInitiator.from(weld);
         getActiveScopes().forEach(weldInitiatorBuilder::activate);
         return weldInitiatorBuilder.build();
     }
 
+    protected void customizeWeld(Weld weld) {
+        // Do nothing, but let children override
+    }
 
     abstract Collection<Class<?>> getBeanClasses();
 
