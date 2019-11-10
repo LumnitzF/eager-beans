@@ -22,9 +22,11 @@ import java.lang.annotation.Target;
  * {@link DefinitionException} will be thrown at deployment time.
  * </p>
  *
+ * @author Fritz Lumnitz
  * @implNote The bean initialization will be triggered by calling {@link Object#toString() toString()} on the bean
  * reference. In case the toString() computation is considered too expensive, annotated classes may implement {@link
  * EagerInitializable}. Initialization then will be triggered by calling the no-op {@link EagerInitializable#init()}.
+ * @see EagerInitializable
  */
 @SuppressWarnings("deprecation")
 @Inherited

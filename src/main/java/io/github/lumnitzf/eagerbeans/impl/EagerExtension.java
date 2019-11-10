@@ -22,7 +22,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Logger;
 
-
+/**
+ * {@link Extension} implementing the behavior for {@link Eager @Eager} marked beans.
+ *
+ * @author Fritz Lumnitz
+ */
 public class EagerExtension implements Extension {
 
     private final Map<Class<? extends Annotation>, Set<Bean<?>>> eagerBeans = new HashMap<>();

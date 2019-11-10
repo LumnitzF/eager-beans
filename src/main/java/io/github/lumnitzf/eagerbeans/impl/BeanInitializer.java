@@ -1,5 +1,6 @@
 package io.github.lumnitzf.eagerbeans.impl;
 
+import io.github.lumnitzf.eagerbeans.Eager;
 import io.github.lumnitzf.eagerbeans.EagerInitializable;
 
 import javax.enterprise.context.Initialized;
@@ -13,13 +14,30 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Set;
+import java.util.logging.Logger;
 
+/**
+ * {@link ObserverMethod} implementation, that triggers the initialization of an {@link Eager} bean upon initialization
+ * of its scope. Listens on the {@link Initialized} event of a scope, and triggers the initialization of the eager
+ * beans.
+ *
+ * @author Fritz Lumnitz
+ */
 class BeanInitializer implements ObserverMethod<Object> {
 
+    /**
+     * The observed {@link Initialized} annotation value.
+     */
     private final Initialized observed;
 
+    /**
+     * The {@link Eager} beans to trigger upon scope initialization.
+     */
     private final Set<Bean<?>> beans;
 
+    /**
+     * The {@link BeanManager} for bean reference lookup.
+     */
     private final BeanManager beanManager;
 
     BeanInitializer(Class<? extends Annotation> scope, Set<Bean<?>> beans, BeanManager beanManager) {
@@ -56,8 +74,12 @@ class BeanInitializer implements ObserverMethod<Object> {
 
     @Override
     public void notify(Object event) {
+        triggerBeans();
+    }
+
+    private void triggerBeans() {
         for (Bean<?> bean : beans) {
-            // To trigger the bean initialization we have to call a method from it
+            // Get the (uninitialized) reference to the eager bean
             Object beanReference = beanManager.getReference(bean, bean.getBeanClass(),
                     beanManager.createCreationalContext(bean));
             initBean(beanReference);
@@ -66,6 +88,8 @@ class BeanInitializer implements ObserverMethod<Object> {
 
     @SuppressWarnings("deprecation")
     private void initBean(Object bean) {
+        // To trigger the bean initialization we have to call a method from it
+        Logger.getLogger(BeanInitializer.class.getName()).fine("Initializing eager bean " + bean);
         if (bean instanceof EagerInitializable) {
             // The bean is an EagerInitializable, so call that init method
             // Avoids expensive toString
@@ -78,6 +102,11 @@ class BeanInitializer implements ObserverMethod<Object> {
         }
     }
 
+    /**
+     * Supports inline instantiation of the {@link Initialized} qualifier.
+     *
+     * @author Fritz Lumnitz
+     */
     private static class InitializedLiteral extends AnnotationLiteral<Initialized> implements Initialized {
 
         private static final long serialVersionUID = 1L;
