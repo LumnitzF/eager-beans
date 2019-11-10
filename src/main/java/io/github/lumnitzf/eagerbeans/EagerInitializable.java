@@ -12,10 +12,12 @@ import javax.enterprise.inject.spi.DefinitionException;
 public interface EagerInitializable {
 
     /**
-     * Called in order to trigger the initialization at context start in favor of may expensive {@link #toString()}.
+     * Called in order to trigger the initialization at context start in favor of may expensive {@link
+     * Object#toString()}.
      *
      * @deprecated Should not be overwritten. Is only called by the container to trigger the initialization in favor of
-     * {@link #toString()}. Actual initialization should be done in a {@code javax.annotation.PostConstruct} annotated
+     * {@link Object#toString()}. Actual initialization should be done in a {@code javax.annotation.PostConstruct}
+     * annotated
      * method.
      */
     @SuppressWarnings("DeprecatedIsStillUsed")
