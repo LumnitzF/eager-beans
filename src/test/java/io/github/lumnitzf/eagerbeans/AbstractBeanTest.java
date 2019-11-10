@@ -19,7 +19,9 @@ public abstract class AbstractBeanTest {
     public WeldInitiator weld = createWeld();
 
     static void markAsCreated(Class<?> beanClass) {
-        CREATED.add(beanClass);
+        if (!CREATED.add(beanClass)) {
+            throw new IllegalStateException("Bean class " + beanClass + " already marked as created");
+        }
     }
 
     // Do not use before, as eager initializations runs before the @Before method
