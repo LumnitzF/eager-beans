@@ -1,6 +1,6 @@
 package io.github.lumnitzf.eagerbeans;
 
-import io.github.lumnitzf.eagerbeans.impl.EagerExtension;
+import io.github.lumnitzf.eagerbeans.spi.EagerExtension;
 import org.jboss.weld.environment.se.Weld;
 import org.jboss.weld.junit4.WeldInitiator;
 import org.junit.After;

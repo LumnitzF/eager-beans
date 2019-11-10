@@ -1,4 +1,4 @@
-package io.github.lumnitzf.eagerbeans.impl;
+package io.github.lumnitzf.eagerbeans.spi;
 
 import io.github.lumnitzf.eagerbeans.Eager;
 import io.github.lumnitzf.eagerbeans.EagerInitializable;
