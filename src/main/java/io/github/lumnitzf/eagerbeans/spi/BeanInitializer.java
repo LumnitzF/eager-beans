@@ -89,7 +89,6 @@ class BeanInitializer implements ObserverMethod<Object> {
     @SuppressWarnings("deprecation")
     private void initBean(Object bean) {
         // To trigger the bean initialization we have to call a method from it
-        Logger.getLogger(BeanInitializer.class.getName()).fine("Initializing eager bean " + bean);
         if (bean instanceof EagerInitializable) {
             // The bean is an EagerInitializable, so call that init method
             // Avoids expensive toString
