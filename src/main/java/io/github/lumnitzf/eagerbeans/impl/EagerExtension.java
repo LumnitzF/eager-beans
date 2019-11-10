@@ -12,6 +12,8 @@ import javax.enterprise.inject.spi.DefinitionException;
 import javax.enterprise.inject.spi.Extension;
 import javax.enterprise.inject.spi.ProcessManagedBean;
 import java.lang.annotation.Annotation;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -46,12 +48,16 @@ public class EagerExtension implements Extension {
             if (inspected instanceof Eager) {
                 return true;
             }
+            final Set<Annotation> mayInspected;
             if (beanManager.isStereotype(inspected.annotationType())) {
-                Set<Annotation> mayInspected = new HashSet<>(
-                        beanManager.getStereotypeDefinition(inspected.annotationType()));
-                mayInspected.removeAll(alreadyInspected);
-                toInspect.addAll(mayInspected);
+                mayInspected = new HashSet<>(beanManager.getStereotypeDefinition(inspected.annotationType()));
+            } else if (beanManager.isScope(inspected.annotationType())) {
+                mayInspected = new HashSet<>(Arrays.asList(inspected.annotationType().getAnnotations()));
+            } else {
+                mayInspected = Collections.emptySet();
             }
+            mayInspected.removeAll(alreadyInspected);
+            toInspect.addAll(mayInspected);
         }
         return false;
     }
