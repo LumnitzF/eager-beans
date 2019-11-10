@@ -16,7 +16,7 @@ public class RequestScopedBeanTest extends AbstractBeanTest {
 
     @Override
     Collection<Class<?>> getBeanClasses() {
-        return Arrays.asList(EagerBean.class, LazyBean.class);
+        return Arrays.asList(EagerBean.class, LazyBean.class, SecondEagerBean.class);
     }
 
     @Override
@@ -27,6 +27,11 @@ public class RequestScopedBeanTest extends AbstractBeanTest {
     @Test
     public void testEagerBeanCreated() {
         Assert.assertTrue(isCreated(EagerBean.class));
+    }
+
+    @Test
+    public void testSecondEagerBeanCreated() {
+        Assert.assertTrue(isCreated(SecondEagerBean.class));
     }
 
     @Test
@@ -50,6 +55,22 @@ public class RequestScopedBeanTest extends AbstractBeanTest {
         @PostConstruct
         public void postConstruct() {
             markAsCreated(EagerBean.class);
+        }
+
+        @Override
+        public String toString() {
+            Assert.fail("EagerInitializable::init should be called instead of toString()");
+            return null;
+        }
+    }
+
+    @RequestScoped
+    @Eager
+    public static class SecondEagerBean implements EagerInitializable {
+
+        @PostConstruct
+        public void postConstruct() {
+            markAsCreated(SecondEagerBean.class);
         }
 
         @Override
