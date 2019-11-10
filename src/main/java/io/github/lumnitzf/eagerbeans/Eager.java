@@ -32,4 +32,17 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.TYPE)
 public @interface Eager {
+
+    /**
+     * Supports inline instantiation of the {@link Eager} qualifier.
+     *
+     * @author Fritz Lumnitz
+     */
+    final class Literal extends AnnotationLiteral<Eager> implements Eager {
+
+        public static final Literal INSTANCE = new Literal();
+
+        private static final long serialVersionUID = 1L;
+
+    }
 }

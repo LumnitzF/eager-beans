@@ -42,12 +42,12 @@ public class EagerExtension implements Extension {
         final Set<Annotation> toInspect = new HashSet<>(annotated.getAnnotations());
         final Set<Annotation> alreadyInspected = new HashSet<>();
         for (Iterator<Annotation> iter = toInspect.iterator(); iter.hasNext(); iter = toInspect.iterator()) {
+            if (toInspect.contains(Eager.Literal.INSTANCE)) {
+                return true;
+            }
             final Annotation inspected = iter.next();
             alreadyInspected.add(inspected);
             iter.remove();
-            if (inspected instanceof Eager) {
-                return true;
-            }
             final Set<Annotation> mayInspected;
             if (beanManager.isStereotype(inspected.annotationType())) {
                 mayInspected = new HashSet<>(beanManager.getStereotypeDefinition(inspected.annotationType()));
