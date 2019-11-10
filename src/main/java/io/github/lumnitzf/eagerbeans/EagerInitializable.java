@@ -1,5 +1,14 @@
 package io.github.lumnitzf.eagerbeans;
 
+import javax.enterprise.inject.spi.DefinitionException;
+
+/**
+ * "Marker" interface allowing implementing beans to be initialized without calling the (may expensive) {@link
+ * Object#toString()}. Implementing classes still have to be annotated with {@link Eager @Eager}, otherwise a {@link
+ * DefinitionException} is thrown at deployment time.
+ *
+ * @author Fritz Lumnitz
+ */
 public interface EagerInitializable {
 
     /**
