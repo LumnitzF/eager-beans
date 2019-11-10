@@ -63,8 +63,10 @@ public class EagerExtension implements Extension {
             } else {
                 mayInspected = Collections.emptySet();
             }
-            mayInspected.removeAll(alreadyInspected);
-            toInspect.addAll(mayInspected);
+            if (!mayInspected.isEmpty()) {
+                mayInspected.removeAll(alreadyInspected);
+                toInspect.addAll(mayInspected);
+            }
         }
         return false;
     }
