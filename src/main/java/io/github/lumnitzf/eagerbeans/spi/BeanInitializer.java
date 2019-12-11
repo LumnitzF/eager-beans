@@ -14,7 +14,6 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.Type;
 import java.util.Collections;
 import java.util.Set;
-import java.util.logging.Logger;
 
 /**
  * {@link ObserverMethod} implementation, that triggers the initialization of an {@link Eager} bean upon initialization
@@ -90,9 +89,9 @@ class BeanInitializer implements ObserverMethod<Object> {
     private void initBean(Object bean) {
         // To trigger the bean initialization we have to call a method from it
         if (bean instanceof EagerInitializable) {
-            // The bean is an EagerInitializable, so call that init method
+            // The bean is an EagerInitializable, so call that triggerInitialization method
             // Avoids expensive toString
-            ((EagerInitializable) bean).init();
+            ((EagerInitializable) bean).triggerInitialization();
         } else {
             // Trigger the creation of the bean using its toString()
             // unfortunately hashCode or equals does not work

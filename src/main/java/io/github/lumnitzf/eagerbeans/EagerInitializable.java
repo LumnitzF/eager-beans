@@ -22,7 +22,7 @@ public interface EagerInitializable {
      */
     @SuppressWarnings("DeprecatedIsStillUsed")
     @Deprecated
-    default void init() {
+    default void triggerInitialization() {
         // Do nothing, the call will force the bean to initialize, which will call the PostConstruct,
         // where the actual initialization would occur
     }

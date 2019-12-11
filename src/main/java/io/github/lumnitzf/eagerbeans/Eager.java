@@ -5,12 +5,7 @@ import javax.enterprise.context.NormalScope;
 import javax.enterprise.inject.Stereotype;
 import javax.enterprise.inject.spi.DefinitionException;
 import javax.enterprise.util.AnnotationLiteral;
-import java.lang.annotation.Documented;
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Inherited;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import java.lang.annotation.*;
 
 /**
  * Marks a bean to be initialized as soon as its associated context gets activated.
@@ -25,7 +20,7 @@ import java.lang.annotation.Target;
  * @author Fritz Lumnitz
  * @implNote The bean initialization will be triggered by calling {@link Object#toString() toString()} on the bean
  * reference. In case the toString() computation is considered too expensive, annotated classes may implement {@link
- * EagerInitializable}. Initialization then will be triggered by calling the no-op {@link EagerInitializable#init()}.
+ * EagerInitializable}. Initialization then will be triggered by calling the no-op {@link EagerInitializable#triggerInitialization()}.
  * @see EagerInitializable
  */
 @SuppressWarnings("deprecation")
