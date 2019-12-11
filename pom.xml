@@ -66,7 +66,6 @@
         <!-- Dependency versions -->
         <cdi-api.version>1.2</cdi-api.version>
         <weld-junit4.version>1.3.1.Final</weld-junit4.version>
-        <microscoped-core.version>0.3</microscoped-core.version>
         <nexus-staging-maven-plugin.version>1.6.8</nexus-staging-maven-plugin.version>
         <maven-release-plugin.version>2.5.3</maven-release-plugin.version>
     </properties>
@@ -270,12 +269,6 @@
             <groupId>org.jboss.weld</groupId>
             <artifactId>weld-junit4</artifactId>
             <version>${weld-junit4.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.tomitribe</groupId>
-            <artifactId>microscoped-core</artifactId>
-            <version>${microscoped-core.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
