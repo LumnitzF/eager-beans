@@ -105,6 +105,7 @@ class BeanInitializer implements ObserverMethod<Object> {
      *
      * @author Fritz Lumnitz
      */
+    // Literal for pre CDI 2.0
     private static class InitializedLiteral extends AnnotationLiteral<Initialized> implements Initialized {
 
         private static final long serialVersionUID = 1L;
