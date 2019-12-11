@@ -44,6 +44,8 @@ public class EagerBean {
 
 In this example, as soon as the request scope is initialized the bean will also be initialized, triggering the `@PostConstruct` annotated method.
 
+The `@Eager` may also be placed on a stereotype, or even a complete scope.
+
 The initialization will be triggered by calling the `toString()` method of the bean.
 If this behavior is not desired (e.g. toString triggers other lazy beans) the bean may implement `EagerInitializable`.
 The initialization will then be triggered by using the no-op method `EagerInitializable::triggerInitialization`.
